@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,8 +44,12 @@ public class AuthController {
     public Result login(@RequestBody Map<String,Object> usernameAndPasswordJson){
         String username = usernameAndPasswordJson.get("username").toString();
         String paddword = usernameAndPasswordJson.get("password").toString();
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails;
+        try {
+            userDetails = userDetailsService.loadUserByUsername(username);
+        }catch (UsernameNotFoundException e){
+            return new Result("fail","用户不存在",false);
+        }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,paddword,userDetails.getAuthorities());
         try {
             authenticationManager.authenticate(token);

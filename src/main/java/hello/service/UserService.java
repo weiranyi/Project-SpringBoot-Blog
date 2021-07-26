@@ -1,7 +1,6 @@
 package hello.service;
 
 import hello.entity.User;
-import hello.mapper.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private Map<String,String> userPasswords = new ConcurrentHashMap<>();
+    private Map<String, String> userPasswords = new ConcurrentHashMap<>();
 
-//    @Inject
+    //    @Inject
 //    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
 //        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 //        save("leo","123456");
@@ -26,28 +25,28 @@ public class UserService implements UserDetailsService {
     @Inject
     public void setUserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        save("leo","123456");
+        save("leo", "123456");
     }
 
-    public void save(String username,String password){
-        userPasswords.put(username,bCryptPasswordEncoder.encode(password));
+    public void save(String username, String password) {
+        userPasswords.put(username, bCryptPasswordEncoder.encode(password));
     }
 
-    public String getPassword(String username){
+    public String getPassword(String username) {
         return userPasswords.get(username);
     }
 
-    public User getUserById(Integer id){
+    public User getUserById(Integer id) {
         return null;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (!userPasswords.containsKey(username)) {
-            throw new UsernameNotFoundException(username+"不存在");
+            throw new UsernameNotFoundException(username + "不存在");
         }
         String encodedpassword = userPasswords.get(username);
 
-        return new org.springframework.security.core.userdetails.User(username,encodedpassword, Collections.EMPTY_LIST);
+        return new org.springframework.security.core.userdetails.User(username, encodedpassword, Collections.EMPTY_LIST);
     }
 }

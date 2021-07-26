@@ -14,10 +14,11 @@ public class OrderService {
      *  @Inject 依赖注入新的标准
      */
     @Inject
-    public OrderService(UserService userService){
-        this.userService=userService;
+    public OrderService(UserService userService) {
+        this.userService = userService;
     }
-    public void placeOrder(Integer userId,String item){
+
+    public void placeOrder(Integer userId, String item) {
         userService.getUserById(userId);
     }
 }

@@ -18,8 +18,13 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private Map<String,String> userPasswords = new ConcurrentHashMap<>();
 
+//    @Inject
+//    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//        save("leo","123456");
+//    }
     @Inject
-    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public void setUserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         save("leo","123456");
     }

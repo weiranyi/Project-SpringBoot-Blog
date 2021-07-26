@@ -11,10 +11,11 @@ import javax.inject.Inject;
 @RestController
 public class HelloController {
     private UserService userService;
-    @Inject
+
     public HelloController(UserService userService){
         this.userService = userService;
     }
+
 
     @RequestMapping("/")
     public User index() {

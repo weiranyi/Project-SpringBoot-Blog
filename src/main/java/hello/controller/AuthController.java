@@ -1,6 +1,7 @@
 package hello.controller;
 
 import hello.entity.User;
+import hello.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,12 +21,15 @@ import java.util.Map;
 
 @Controller
 public class AuthController {
+    private UserService userService;
     private UserDetailsService userDetailsService;
     private AuthenticationManager authenticationManager;
 
     @Inject
     public AuthController(UserDetailsService userDetailsService,
+                          UserService userService,
                           AuthenticationManager authenticationManager) {
+        this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.authenticationManager = authenticationManager;
     }
@@ -33,8 +37,13 @@ public class AuthController {
     @GetMapping("/auth")
     @ResponseBody
     public Object auth(ModelMap map) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userName.contains("anonymous")) {
+            return new Result("ok", "您没有登录", false);
+        } else {
+            return new Result("ok", null, true, userService.getUserByUsername(userName));
+        }
         // 获取M（数据）：ModelMap map
-        return new Result("ok", "您没有登录", false);
     }
 
     /* https://spring.io/guides/gs/securing-web/ */
@@ -77,7 +86,6 @@ public class AuthController {
             this.data = data;
         }
 
-
         public String getStatus() {
             return status;
         }
@@ -100,6 +108,14 @@ public class AuthController {
 
         public void setLogin(boolean login) {
             isLogin = login;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        public void setData(Object data) {
+            this.data = data;
         }
     }
 }

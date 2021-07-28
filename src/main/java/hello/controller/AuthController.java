@@ -62,10 +62,8 @@ public class AuthController {
         if (password.length() < 1 || password.length() > 15) {
             return Result.failure("invalid password");
         }
-        userService.save(username, password);
-
         try {
-            User user = userService.getUserByUsername(username);
+            userService.save(username, password);
         } catch (DuplicateKeyException e) {
             return Result.failure("user already exists");
         }

@@ -6,30 +6,17 @@ public class User {
     Integer id;
     String username;
     String avatar;
-    String enencryptedPassword;
+    String encryptedPassword;
     Instant createdAt;
     Instant updatedAt;
 
-//    public User(Integer id, String username, String encryptedPassword, String avatar, Instant createdAt, Instant updatedAt) {
-//        this.id = id;
-//        this.username = username;
-//        this.enencryptedPassword = encryptedPassword;
-//        this.avatar = "";
-//        this.createdAt = Instant.now();
-//        this.updatedAt = Instant.now();
-//    }
-    public User(Integer id, String username, String encryptedPassword) {
+    public User(Integer id, String username, String avatar, String encryptedPassword, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.username = username;
-        this.enencryptedPassword = encryptedPassword;
-        this.avatar = "";
-        this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
-    }
-
-    public User(int id, String username) {
-        this.id = id;
-        this.username = username;
+        this.avatar = avatar;
+        this.encryptedPassword = encryptedPassword;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Integer getId() {
@@ -72,11 +59,11 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public String getEnencryptedPassword() {
-        return enencryptedPassword;
+    public String getEncryptedPassword() {
+        return encryptedPassword;
     }
 
-    public void setEnencryptedPassword(String enencryptedPassword) {
-        this.enencryptedPassword = enencryptedPassword;
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 }

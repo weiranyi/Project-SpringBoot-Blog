@@ -1,6 +1,7 @@
 package hello.controller;
 
 
+import hello.entity.Result;
 import hello.entity.User;
 import hello.service.UserService;
 import org.springframework.dao.DuplicateKeyException;
@@ -39,7 +40,7 @@ public class AuthController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return new Result("ok", "您没有登录", false);
+            return Result.failure("用户没有登录");
         } else {
             return new Result("ok", null, true, loggedInUser);
         }
@@ -52,24 +53,23 @@ public class AuthController {
         String username = usernameAndPasswordJson.get("username");
         String password = usernameAndPasswordJson.get("password");
         if (username == null || password == null) {
-            return new Result("fail", "username/password", false);
+            return Result.failure("username/password");
         }
         if (username.length() < 1 || username.length() > 15) {
-            return new Result("fail", "invalid username", false);
+            return Result.failure("invalid username");
+
         }
         if (password.length() < 1 || password.length() > 15) {
-            return new Result("fail", "invalid password", false);
+            return Result.failure("invalid password");
         }
         userService.save(username, password);
 
         try {
             User user = userService.getUserByUsername(username);
-            return new Result("ok", "success!", false);
         } catch (DuplicateKeyException e) {
-            return new Result("fail", "user already exists", false);
+            return Result.failure("user already exists");
         }
-
-
+        return new Result("ok", "success!", false);
     }
 
     /* https://spring.io/guides/gs/securing-web/ */
@@ -82,7 +82,7 @@ public class AuthController {
         try {
             userDetails = userService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
-            return new Result("fail", "用户不存在", false);
+            return Result.failure("用户不存在");
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         try {
@@ -90,7 +90,7 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(token);
             return new Result("ok", "登录成功", true, userService.getUserByUsername(username));
         } catch (BadCredentialsException e) {
-            return new Result("fail", "密码不正确", false);
+            return Result.failure("密码不正确");
         }
     }
 
@@ -100,61 +100,11 @@ public class AuthController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return new Result("fail", "您没有登录", false);
+            return Result.failure("密码不正确");
         } else {
             SecurityContextHolder.clearContext();
             return new Result("ok", "注销成功", false);
         }
         // 获取M（数据）：ModelMap map
-    }
-
-    private static class Result {
-        String status;
-        String msg;
-        boolean isLogin;
-        Object data;
-
-        Result(String status, String msg, boolean isLogin) {
-            this(status, msg, isLogin, null);
-        }
-
-        Result(String status, String msg, boolean isLogin, Object data) {
-            this.status = status;
-            this.msg = msg;
-            this.isLogin = isLogin;
-            this.data = data;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
-
-        public boolean isLogin() {
-            return isLogin;
-        }
-
-        public void setLogin(boolean login) {
-            isLogin = login;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
-        }
     }
 }

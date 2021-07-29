@@ -1,7 +1,7 @@
 # SpringBoot-Blog
 
-
 ### 收获：
+
 - 1、自动化测试：
     - 意义：
         - 不用手工测试，手工测试费时费力，不消耗精力
@@ -27,4 +27,15 @@
     - 实战
         - 命令：mvn test
             - 不需要代码被打包或部署
-        - 创建测试类的默认按键为： ctrl+shift+t 
+        - 创建测试类的默认按键为： ctrl+shift+t
+- 2、持续集成雨集成测试：
+    - 持续集成：简单理解为不断的自动化检测
+    - 类型：
+        - TravisCI
+        - Carracci
+        - appveyorci
+        - 中小公司：Jenkins
+    - 命令
+        - docker run -p 8080:8080 -v `pwd`/Jenkins-data:/var/jenkins_home jenkins/jenkins
+        - 得到Jenkins密码：ddd88910b9024e07b4018c9c2e2b8d52
+        - 若需清除数据：rm -rf Jenkins-data/*

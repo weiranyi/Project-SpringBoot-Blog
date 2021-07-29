@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.Instant;
 
 import static org.mockito.Mockito.*;
-
+// 单元测试
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock

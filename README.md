@@ -1,5 +1,10 @@
 # SpringBoot-Blog
 
+### 介绍：
+
+- 测试
+    - 持续集成，前期用了下circleci，后面采用github actions
+
 ### 收获：
 
 - 1、自动化测试：
@@ -36,7 +41,10 @@
         - appveyorci
         - 中小公司：Jenkins
     - 命令
-        - docker run -p 8081:8081 -v 'pwd'/Jenkins-data:/var/jenkins_home jenkins/jenkins
-          - 得到Jenkins密码：3c7484be6982406aaaa48733f6de1b7f
+        - docker run -p 8081:8080 -v 'pwd'/Jenkins-data:/var/jenkins_home jenkins/jenkins
+            - 得到Jenkins密码：23083ac830a5497da64d3ab5229c3f53
         - 若需清除数据：rm -rf Jenkins-data/*
     - 数据迁移：mvn flyway:migrate
+- 3、maven安装脚本生成命令
+    - mvn -N io.takari:maven:0.7.7:wrapper
+

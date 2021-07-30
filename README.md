@@ -36,6 +36,7 @@
         - appveyorci
         - 中小公司：Jenkins
     - 命令
-        - docker run -p 8080:8080 -v `pwd`/Jenkins-data:/var/jenkins_home jenkins/jenkins
-        - 得到Jenkins密码：ddd88910b9024e07b4018c9c2e2b8d52
+        - docker run -p 8081:8081 -v 'pwd'/Jenkins-data:/var/jenkins_home jenkins/jenkins
+          - 得到Jenkins密码：3c7484be6982406aaaa48733f6de1b7f
         - 若需清除数据：rm -rf Jenkins-data/*
+    - 数据迁移：mvn flyway:migrate

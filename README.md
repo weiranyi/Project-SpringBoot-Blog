@@ -3,7 +3,7 @@
 ### 介绍：
 
 - 测试
-    - 持续集成，前期用了下circleci，后面采用github actions
+    - 持续集成，前期用了下circleci，后面采用github actions，本地使用了Jenkins
 
 ### 收获：
 
@@ -40,11 +40,20 @@
         - Carracci
         - appveyorci
         - 中小公司：Jenkins
-    - 命令
-        - docker run -p 8081:8080 -v 'pwd'/Jenkins-data:/var/jenkins_home jenkins/jenkins
-            - 得到Jenkins密码：23083ac830a5497da64d3ab5229c3f53
-        - 若需清除数据：rm -rf Jenkins-data/*
-    - 数据迁移：mvn flyway:migrate
-- 3、maven安装脚本生成命令
-    - mvn -N io.takari:maven:0.7.7:wrapper
+- 3、Jenkins的使用
+  - 命令
+      - docker run -p 8081:8080 -v /Users/weiranyi/Documents/workplace/docker/Jenkins/Jenkins-data:/var/jenkins_home
+        jenkins/jenkins
+          - 得到Jenkins密码：ca7d9f3f6f144a2f9225b144fc16627a
+      - 若需清除数据：rm -rf Jenkins-data/*
+      - jenkins中没用maven环境，
+        - 在项目目录使用mvn -N io.takari:maven:0.7.7:wrapper
+        - 在jenkins中配置shell命令./mvnw test
+- 4、回顾flyway插件
+  - 数据迁移：mvn flyway:migrate
 
+### BUG:
+
+- ERROR: Couldn't find any revision to build. Verify the repository and branch
+    - jenkins找不到分支来拉指定的git代码，是因为github上master节点名称变更为main
+    

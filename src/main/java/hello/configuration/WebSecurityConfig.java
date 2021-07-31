@@ -23,32 +23,30 @@ import javax.inject.Inject;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserDetailsService userDetailsService;
-
     @Inject
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 关闭跨站伪造防御，开启时访问可能出现403
         http.csrf().disable();
-        http
-                .authorizeRequests()
+
+        http.authorizeRequests()
+                // 不需要密码的路径
                 .antMatchers("/", "/auth/**").permitAll();
     }
 
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
-        // 鉴权后，会自动设置cookie
         return authenticationManager();
     }
+
+    // 全局配置
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
+    // 密码加密服务
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

@@ -1,28 +1,23 @@
 package hello.entity;
 
-public class Result {
+public abstract class Result<T> {
     String status;
     String msg;
-    boolean isLogin;
-    Object data;
+    T data;
 
-    // 工厂方法
-    public static Result failure(String message) {
-        return new Result("fail", message, false);
-    }
-//    public static Result Success(){
-//
-//    }
-
-    public Result(String status, String msg, boolean isLogin) {
-        this(status, msg, isLogin, null);
+    protected Result(String status, String msg) {
+        this(status, msg, null);
     }
 
-    public Result(String status, String msg, boolean isLogin, Object data) {
+    protected Result(String status, String msg, T data) {
         this.status = status;
         this.msg = msg;
-        this.isLogin = isLogin;
         this.data = data;
+    }
+
+    public static Result failure(String msg) {
+        return LoginResult.failure(msg);
+//        return new LoginResult("fail", msg, null, false);
     }
 
     public String getStatus() {
@@ -41,19 +36,11 @@ public class Result {
         this.msg = msg;
     }
 
-    public boolean isLogin() {
-        return isLogin;
-    }
-
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

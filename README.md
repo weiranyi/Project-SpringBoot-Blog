@@ -41,17 +41,23 @@
         - appveyorci
         - 中小公司：Jenkins
 - 3、Jenkins的使用
-  - 命令
-      - docker run -p 8081:8080 -v /Users/weiranyi/Documents/workplace/docker/Jenkins/Jenkins-data:/var/jenkins_home
-        jenkins/jenkins
-          - 得到Jenkins密码：ca7d9f3f6f144a2f9225b144fc16627a
-      - 若需清除数据：rm -rf Jenkins-data/*
-      - jenkins中没用maven环境，
-        - 在项目目录使用mvn -N io.takari:maven:0.7.7:wrapper
-        - 在jenkins中配置shell命令./mvnw test
+    - 命令
+        - docker run -p 8081:8080 -v /Users/weiranyi/Documents/workplace/docker/Jenkins/Jenkins-data:/var/jenkins_home
+          jenkins/jenkins
+            - 得到Jenkins密码：ca7d9f3f6f144a2f9225b144fc16627a
+        - 若需清除数据：rm -rf Jenkins-data/*
+        - jenkins中没用maven环境，
+            - 在项目目录使用mvn -N io.takari:maven:0.7.7:wrapper
+            - 在jenkins中配置shell命令./mvnw test
 - 4、回顾flyway插件
-  - 数据迁移：mvn flyway:migrate
+    - 数据迁移：mvn flyway:migrate
+    - 提前使用docker安装数据库： docker run --name mysql -v /Users/weiranyi/Documents/workplace/docker/mysql:/var/lib/mysql -p
+      3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=springboot_blog -d mysql:5.7.35
 
+- 5、理解：
+  - controller：参数验证、清洗
+  - service：业务逻辑
+  - dao：访问DB，mapper也是dao的一种
 ### BUG:
 
 - ERROR: Couldn't find any revision to build. Verify the repository and branch

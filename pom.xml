@@ -151,7 +151,7 @@
                                 <argument>-e</argument>
                                 <argument>MYSQL_ROOT_PASSWORD=123456</argument>
                                 <argument>-e</argument>
-                                <argument>MYSQL_DATABASE=blog</argument>
+                                <argument>MYSQL_DATABASE=springboot_blog</argument>
                                 <argument>-p</argument>
                                 <argument>3307:3306</argument>
                                 <argument>-d</argument>
@@ -197,7 +197,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://127.0.0.1:3306/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
+                    <url>jdbc:mysql://127.0.0.1:3306/springboot_blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
                     <user>root</user>
                     <password>123456</password>
                 </configuration>
@@ -209,7 +209,7 @@
                             <goal>migrate</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:mysql://127.0.0.1:3307/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
+                            <url>jdbc:mysql://127.0.0.1:3307/springboot_blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
                             <user>root</user>
                             <password>123456</password>
                         </configuration>

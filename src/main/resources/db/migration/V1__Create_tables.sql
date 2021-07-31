@@ -1,4 +1,3 @@
--- auto-generated definition
 create table user
 (
     id                 bigint auto_increment primary key,
@@ -9,4 +8,14 @@ create table user
     updated_at         datetime,
     constraint user_username_uindex
         unique (username)
+);
+create table blog
+(
+    id          bigint primary key auto_increment,
+    user_id     bigint,
+    title       varchar(100),
+    description varchar(100),
+    content     TEXT,
+    created_at  datetime,
+    updated_at  datetime
 );

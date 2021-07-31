@@ -1,6 +1,7 @@
 package hello.controller;
 
 
+import hello.entity.LoginResult;
 import hello.entity.Result;
 import hello.entity.User;
 import hello.service.UserService;
@@ -36,13 +37,13 @@ public class AuthController {
 
     @GetMapping("/auth")
     @ResponseBody
-    public Object auth(ModelMap map) {
+    public Result auth(ModelMap map) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return Result.failure("用户没有登录");
+            return LoginResult.success("用户没有登录", false);
         } else {
-            return new Result("ok", null, true, loggedInUser);
+            return LoginResult.success(null, true, loggedInUser);
         }
         // 获取M（数据）：ModelMap map
     }
@@ -67,7 +68,7 @@ public class AuthController {
         } catch (DuplicateKeyException e) {
             return Result.failure("user already exists");
         }
-        return new Result("ok", "success!", false);
+        return LoginResult.failure("success!");
     }
 
     /* https://spring.io/guides/gs/securing-web/ */
@@ -86,7 +87,7 @@ public class AuthController {
         try {
             authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(token);
-            return new Result("ok", "登录成功", true, userService.getUserByUsername(username));
+            return LoginResult.success("登录成功", true, userService.getUserByUsername(username));
         } catch (BadCredentialsException e) {
             return Result.failure("密码不正确");
         }
@@ -98,10 +99,11 @@ public class AuthController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return Result.failure("密码不正确");
+            return LoginResult.failure("用户没有登录");
         } else {
             SecurityContextHolder.clearContext();
-            return new Result("ok", "注销成功", false);
+            return LoginResult.success("注销成功",false);
+
         }
         // 获取M（数据）：ModelMap map
     }

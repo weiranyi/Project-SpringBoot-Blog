@@ -24,7 +24,7 @@ import java.net.http.HttpResponse;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 public class MyIntegrationTest {
-    @Inject
+    @Inject// 注入环境变量
     Environment environment;
 
     @Test

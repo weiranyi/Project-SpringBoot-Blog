@@ -95,24 +95,48 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
+            <!--用于单元测试-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <configuration>
+                    <excludes>
+                        <!-- 以 IntegrationTest 结尾的测试代码不属于单元测试-->
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>none</exclude>
+                            </excludes>
+                            <includes>
+                                <!--以 IntegrationTest 结尾的测试代码属于集成测试-->
+                                <include>**/*IntegrationTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--            用于持续集成-->
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <includes>
-                        <include>**/*IntegrationTest</include>
-                    </includes>
-                </configuration>
+                <version>2.22.0</version>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
+                    <!--用docker启动mysql-->
                 <executions>
                     <execution>
-                        <id>test-database-setup</id>
-                        <!-- 绑定到某阶段 -->
+                        <id>start-test-database</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -135,6 +159,7 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <!--等待 mysql 启动完成(否则后续flyway无法连接成功)-->
                     <execution>
                         <id>wait-test-database</id>
                         <phase>pre-integration-test</phase>
@@ -145,7 +170,7 @@
                             <longModulepath>false</longModulepath>
                             <executable>sleep</executable>
                             <arguments>
-                                <argument>20</argument>
+                                <argument>30</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -172,7 +197,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
+                    <url>jdbc:mysql://127.0.0.1:3306/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
                     <user>root</user>
                     <password>123456</password>
                 </configuration>
@@ -184,21 +209,14 @@
                             <goal>migrate</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:mysql://localhost:3307/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
+                            <url>jdbc:mysql://127.0.0.1:3307/blog?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
                             <user>root</user>
                             <password>123456</password>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 </project>

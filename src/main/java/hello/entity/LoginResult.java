@@ -12,7 +12,7 @@ public class LoginResult extends Result<User> {
         return success(msg,isLogin,null);
     }
     public static Result success(String msg, boolean isLogin,User user) {
-        return new LoginResult("ok",msg, null, isLogin);
+        return new LoginResult("ok",msg, user, isLogin);
     }
 
 

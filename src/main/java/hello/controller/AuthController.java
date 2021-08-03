@@ -45,7 +45,6 @@ public class AuthController {
         } else {
             return LoginResult.success(null, true, loggedInUser);
         }
-        // 获取M（数据）：ModelMap map
     }
 
     @PostMapping("/auth/register")
@@ -68,7 +67,7 @@ public class AuthController {
         } catch (DuplicateKeyException e) {
             return Result.failure("user already exists");
         }
-        return LoginResult.failure("success!");
+        return LoginResult.success("success!",false);
     }
 
     /* https://spring.io/guides/gs/securing-web/ */

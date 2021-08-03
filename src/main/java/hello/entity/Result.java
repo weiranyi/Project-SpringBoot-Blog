@@ -1,5 +1,6 @@
 package hello.entity;
 
+
 public abstract class Result<T> {
     String status;
     String msg;

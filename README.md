@@ -42,8 +42,8 @@
         - 中小公司：Jenkins
 - 3、Jenkins的使用
     - 命令
-        - docker run -p 8081:8080 -v /Users/weiranyi/Documents/workplace/docker/Jenkins/Jenkins-data:/var/jenkins_home
-          jenkins/jenkins
+        - docker run -p 8081:8080 -v /Users/weiranyi/Documents/workplace/docker/Jenkins/Jenkins-data:/var/jenkins_home jenkins/jenkins
+        - docker run -it -p 8081:8080 -v `pwd`/Jenkins-data:/var/jenkins_home -v `pwd`/Jenkins-m2:/var/jenkins_home/.m2 weweave/jenkins-lts-docker
             - 得到Jenkins密码：ca7d9f3f6f144a2f9225b144fc16627a
         - 若需清除数据：rm -rf Jenkins-data/*
         - jenkins中没用maven环境，
@@ -58,6 +58,10 @@
   - controller：参数验证、清洗
   - service：业务逻辑
   - dao：访问DB，mapper也是dao的一种
+- 6、docker build（变成镜像）
+  - 建一个docker镜像：docker build . -t my-app
+  - 启动一个和控制台相连的应用：docker run -it my-app
+
 ### BUG:
 
 - ERROR: Couldn't find any revision to build. Verify the repository and branch
